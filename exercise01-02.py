@@ -5,7 +5,12 @@
 
 import re
 
-x = re.compile(r"(\d{1,3})[.](\d{1,3})[.](\d{1,3})[.](\d{1,3})$")
+x = re.compile(r"""
+	(25[0-5]|2[0-4][0-9]|1?\d?\d)(?:\.)
+	(25[0-5]|2[0-4]\d|[01]?\d?\d)(?:\.)
+	(25[0-5]|2[0-4]\d|[01]?\d?\d)(?:\.)
+	(25[0-5]|2[0-4]\d|[01]?\d?\d)
+	""", re.VERBOSE)
 # TODO: more discriminating regex
 
 octet_dict = {}
@@ -14,6 +19,9 @@ while True:
 	try:
 		address = input("Please enter an IP address:")
 		m = x.match(address)
+		print("m is", m)
+		#print(*m.group(), sep=",")
+		#print(*m.groups(), sep=",")
 		if m != None:
 			for i in range(1,5):
 				octet_dict[f"octet{i}"] = m.group(i)
